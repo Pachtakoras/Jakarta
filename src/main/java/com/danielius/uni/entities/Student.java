@@ -1,18 +1,17 @@
 package com.danielius.uni.entities;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "STUDENT")
-@Getter
-@Setter
-public class Student {
+@Getter @Setter
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +22,8 @@ public class Student {
     @Column(name = "SURNAME", nullable = false)
     private String surname;
 
-    @ManyToMany
-    //@Column(name = "COURSES", nullable = true)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Column(name = "COURSES")
     private List<OptionalCourses> optionalCourses;
 
     @ManyToOne

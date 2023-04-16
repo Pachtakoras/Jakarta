@@ -2,8 +2,8 @@ package com.danielius.uni;
 
 import java.io.*;
 
-import jakarta.servlet.http.*;
-import jakarta.servlet.annotation.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

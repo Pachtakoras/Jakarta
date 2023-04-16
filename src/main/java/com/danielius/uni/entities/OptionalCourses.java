@@ -1,16 +1,18 @@
 package com.danielius.uni.entities;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+
 @Entity
+@Table(name = "OPTIONAL_COURSES")
 @Getter @Setter
-public class OptionalCourses {
+public class OptionalCourses implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

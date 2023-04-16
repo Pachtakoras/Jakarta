@@ -1,7 +1,6 @@
 package com.danielius.uni.usecases;
 
 import com.danielius.uni.entities.Group;
-import com.danielius.uni.entities.Student;
 import com.danielius.uni.persistence.GroupDAO;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,15 +16,14 @@ import java.util.List;
 public class Groups {
     @Inject
     private GroupDAO groupDAO;
-
     @Getter @Setter
-    private Group groupToCreate;
+    private Group groupToCreate = new Group();
 
     @Getter
     private List<Group> allGroups;
     @PostConstruct
     public void init(){
-        //loadAllGroups();
+        loadAllGroups();
     }
 
     @Transactional
@@ -34,7 +32,8 @@ public class Groups {
     }
 
     private void loadAllGroups(){
-       // this.allGroups = groupDAO.loadAll();
+        System.out.println("I was called");
+        this.allGroups = groupDAO.loadAll();
     }
 
     public String sakykLabas() {

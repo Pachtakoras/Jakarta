@@ -1,21 +1,26 @@
 package com.danielius.uni.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
-public class Group {
+@Table(name = "STUDENT_GROUP")
+@Getter @Setter
+public class Group implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Min(1) @Max(6)
     @Column(name = "COURSE", nullable = false)
     private Integer course;
 
@@ -32,8 +37,8 @@ public class Group {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Group grupe = (Group) o;
-        return speciality.equals(grupe.speciality);
+        Group group = (Group) o;
+        return speciality.equals(group.speciality);
     }
 
     @Override
