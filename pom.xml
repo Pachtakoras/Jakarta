@@ -69,8 +69,10 @@
                     <artifactId>mybatis-generator-maven-plugin</artifactId>
                     <version>1.4.0</version>
                     <configuration>
-                        <contexts>PlayersDB</contexts>
+                        <contexts>UniiDB</contexts>
                         <verbose>true</verbose>
+                        <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+                        <overwrite>true</overwrite>
                     </configuration>
                     <executions>
                         <execution>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.danielius.uni.mybatis.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="com.danielius.uni.mybatis.model.Student">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SURNAME" jdbcType="VARCHAR" property="surname" />
+    <result column="GROUP_ID" jdbcType="BIGINT" property="groupId" />
+    <association property="group" columnPrefix="group_" resultMap="com.danielius.uni.mybatis.dao.StudentGroupMapper.BaseResultMap"/>
+    <collection property="courses" javaType="ArrayList" ofType="OptionalCourses" column="id"
+                select="selectOptionalCoursesForStudent"/>
+  </resultMap>
+  <select id="selectOptionalCoursesForStudent" parameterType="java.lang.Long" resultType="OptionalCourses">
+      SELECT oc.ID, oc.TITLE
+      FROM PUBLIC.OPTIONAL_COURSES oc
+               JOIN STUDENT_OPTIONAL_COURSES SOC
+                    ON oc.ID = SOC.OPTIONALCOURSES_ID
+      WHERE SOC.STUDENTS_ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PUBLIC.STUDENT
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.danielius.uni.mybatis.model.Student" useGeneratedKeys="true">
+    insert into PUBLIC.STUDENT (NAME, SURNAME, GROUP_ID
+      )
+    values (#{name,jdbcType=VARCHAR}, #{surname,jdbcType=VARCHAR}, #{groupId,jdbcType=BIGINT}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.danielius.uni.mybatis.model.Student">
+    update PUBLIC.STUDENT
+    set NAME = #{name,jdbcType=VARCHAR},
+      SURNAME = #{surname,jdbcType=VARCHAR},
+      GROUP_ID = #{groupId,jdbcType=BIGINT}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ID, NAME, SURNAME, GROUP_ID
+    from PUBLIC.STUDENT
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select s.ID, s.NAME, s.SURNAME, s.GROUP_ID, g.SPECIALITY
+    from PUBLIC.STUDENT s JOIN PUBLIC.STUDENT_GROUP g ON s.GROUP_ID = g.ID
+  </select>
+  <select id="selectGroupStudents" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select s.ID, s.NAME, s.SURNAME, s.GROUP_ID, g.SPECIALITY
+    from PUBLIC.STUDENT s JOIN PUBLIC.STUDENT_GROUP g ON s.GROUP_ID = g.ID
+    where g.ID = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

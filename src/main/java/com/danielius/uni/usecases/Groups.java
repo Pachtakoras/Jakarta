@@ -26,6 +26,10 @@ public class Groups {
         loadAllGroups();
     }
 
+    public String sayHello() {
+        return "Labass " + new Date() + " " + toString();
+    }
+
     @Transactional
     public void createGroup(){
         this.groupDAO.persist(groupToCreate);

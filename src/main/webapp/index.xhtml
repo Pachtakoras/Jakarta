@@ -8,6 +8,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head/>
 <h:body>
+    #{groups.sayHello()}
     <h2>Groups:</h2>
     <ol>
         <ui:repeat value="#{groups.allGroups}" var="group">
@@ -22,6 +23,8 @@
         <h:commandButton value="Add new Group" actionListener="#{groups.createGroup()}" action="index?faces-redirect=true"/>
     </h:form>
     <h:link outcome="courses" value="Optional courses"/>
-    <!--<h:link outcome="myBatis/teams" value="MyBatis implementation"/>-->
+    <br></br>
+    <h:link outcome="mybatis/groups" value="MyBatis implementation"/>
+    <!--<h:link outcome="mybatis/groups" value="MyBatis implementation"/>-->
 </h:body>
 </html>

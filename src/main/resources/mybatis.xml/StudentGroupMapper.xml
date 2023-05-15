@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.danielius.uni.mybatis.dao.StudentGroupMapper">
+  <resultMap id="BaseResultMap" type="com.danielius.uni.mybatis.model.StudentGroup">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="COURSE" jdbcType="INTEGER" property="course" />
+    <result column="SPECIALITY" jdbcType="VARCHAR" property="speciality" />
+    <collection property="students" javaType="ArrayList" ofType="Student" column="id"
+                select="selectAllGroupStudents"/>
+  </resultMap>
+  <select id="selectAllGroupStudents" resultType="Student">
+    SELECT s.ID, s.NAME, s.SURNAME FROM PUBLIC.STUDENT s, PUBLIC.STUDENT_GROUP sg
+        WHERE s.GROUP_ID = sg.ID
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PUBLIC.STUDENT_GROUP
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.danielius.uni.mybatis.model.StudentGroup" useGeneratedKeys="true">
+    insert into PUBLIC.STUDENT_GROUP (COURSE, SPECIALITY)
+    values (#{course,jdbcType=INTEGER}, #{speciality,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.danielius.uni.mybatis.model.StudentGroup">
+    update PUBLIC.STUDENT_GROUP
+    set COURSE = #{course,jdbcType=INTEGER},
+      SPECIALITY = #{speciality,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ID, COURSE, SPECIALITY
+    from PUBLIC.STUDENT_GROUP
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ID, COURSE, SPECIALITY
+    from PUBLIC.STUDENT_GROUP
+  </select>
+</mapper>

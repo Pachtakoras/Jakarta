@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.danielius.uni.mybatis.dao.OptionalCoursesMapper">
+  <resultMap id="BaseResultMap" type="com.danielius.uni.mybatis.model.OptionalCourses">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <collection property="students" javaType="ArrayList" ofType="Student"
+                column="id"
+                select="selectCourseStudents"/>
+  </resultMap>
+  <select id="selectCourseStudents" parameterType="java.lang.Long" resultType="Student">
+    SELECT S.ID, S.NAME, S.SURNAME FROM PUBLIC.STUDENT S
+        JOIN STUDENT_OPTIONAL_COURSES SOC
+            ON S.ID = SOC.STUDENTS_ID
+        WHERE SOC.OPTIONALCOURSES_ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from PUBLIC.OPTIONAL_COURSES
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.danielius.uni.mybatis.model.OptionalCourses" useGeneratedKeys="true">
+    insert into PUBLIC.OPTIONAL_COURSES (TITLE)
+    values (#{title,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertStudents">
+    INSERT INTO STUDENT_OPTIONAL_COURSES (STUDENTS_ID, OPTIONALCOURSES_ID)
+        values ( #{student_id},
+                #{course_id})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.danielius.uni.mybatis.model.OptionalCourses">
+    update PUBLIC.OPTIONAL_COURSES
+    set TITLE = #{title,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select ID, TITLE
+    from PUBLIC.OPTIONAL_COURSES
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ID, TITLE
+    from PUBLIC.OPTIONAL_COURSES
+  </select>
+</mapper>
